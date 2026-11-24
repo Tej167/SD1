@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+<meta charset="UTF-8">
+<title>Donation Announcement Template</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Noto+Serif+Gujarati:wght@400;600;700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --saffron:#FF9933; --gold:#FFD700; --maroon:#800000; --cream:#FFF8E7;
+    --ease:cubic-bezier(.22,.8,.3,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1280px;height:720px;overflow:hidden;background:#3d0000}
+  body{position:relative;font-family:'Noto Serif Gujarati','Poppins',serif;color:var(--cream)}
+  #stage{position:absolute;inset:0;width:1280px;height:720px;overflow:hidden}
+
+  /* ---------- everything animated starts hidden; body.go starts the 8s timeline ---------- */
+  .a{opacity:0}
+
+  /* ---------- BACKGROUND ---------- */
+  .bg{position:absolute;inset:0;z-index:0;
+    background:radial-gradient(ellipse at 50% 42%,#e07a1c 0%,#b5440c 30%,#800000 66%,#4a0000 100%)}
+  .mandala{position:absolute;width:980px;height:980px;left:150px;top:-130px;opacity:.16;
+    transform-origin:50% 50%;will-change:transform}
+  .p{position:absolute;bottom:-24px;left:var(--x);width:var(--s);height:var(--s);border-radius:50%;opacity:0;
+    background:radial-gradient(circle,#FFF6B8 0%,#FFD700 45%,rgba(255,215,0,0) 72%);will-change:transform,opacity}
+
+  /* ---------- FRAME ---------- */
+  .frame{position:absolute;inset:0;z-index:6;pointer-events:none}
+  .f1{position:absolute;inset:14px;border:3px solid var(--gold);box-shadow:0 0 18px rgba(255,215,0,.45),inset 0 0 18px rgba(255,215,0,.2)}
+  .f2{position:absolute;inset:26px;border:1.5px solid #E8B923}
+  .corner{position:absolute;width:110px;height:110px}
+  .tl{left:9px;top:9px}
+  .tr{right:9px;top:9px;transform:scaleX(-1)}
+  .bl{left:9px;bottom:9px;transform:scaleY(-1)}
+  .br{right:9px;bottom:9px;transform:scale(-1,-1)}
+
+  /* ---------- HEADER ---------- */
+  .header{position:absolute;z-index:4;top:38px;left:0;width:100%;text-align:center}
+  .title{font-family:'Noto Serif Gujarati',serif;font-weight:800;font-size:56px;line-height:1.45;
+    background:linear-gradient(180deg,#FFF3A6 0%,#FFD700 45%,#E3A400 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    filter:drop-shadow(0 0 14px rgba(255,215,0,.55)) drop-shadow(0 3px 4px rgba(0,0,0,.35))}
+  .subtitle{font-family:'Cinzel',serif;font-weight:600;font-size:19px;letter-spacing:.55em;padding-left:.55em;
+    color:#FFE9A8;margin-top:-6px;text-shadow:0 0 10px rgba(255,215,0,.5)}
+
+  /* ---------- CONTENT GRID ---------- */
+  .content{position:absolute;z-index:3;left:0;top:168px;width:1280px;height:508px;padding:0 80px;
+    display:grid;grid-template-columns:40% 60%;align-items:center}
+  .left{display:flex;flex-direction:column;align-items:center;gap:10px}
+  .right{display:flex;flex-direction:column;align-items:flex-start;gap:14px;padding-left:28px}
+
+  /* ---------- PHOTO ---------- */
+  .photo-wrap{position:relative;width:330px;height:384px}
+  .photo-wrap::before{content:'';position:absolute;inset:-40px;border-radius:50%;opacity:.55;
+    background:radial-gradient(circle,rgba(255,215,0,.55) 0%,rgba(255,215,0,0) 68%)}
+  .photo-ring{position:relative;width:100%;height:100%;padding:9px;border-radius:165px 165px 26px 26px;
+    background:linear-gradient(145deg,#FFF3A6,#FFD700 35%,#B8860B 65%,#FFD700);
+    box-shadow:0 0 28px rgba(255,215,0,.6),0 10px 30px rgba(0,0,0,.45)}
+  .photo-inner{position:relative;width:100%;height:100%;overflow:hidden;background:#FFF8E7;
+    border-radius:156px 156px 18px 18px;border:3px solid #800000}
+  .photo-inner img{width:100%;height:100%;object-fit:cover;display:block}
+  .photo-inner::after{content:'';position:absolute;inset:0;transform:translateX(-130%);
+    background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.6) 50%,transparent 65%)}
+  .lotus{width:130px;height:68px;filter:drop-shadow(0 0 10px rgba(255,215,0,.6))}
+
+  /* ---------- RIGHT TEXT ---------- */
+  .intro{font-weight:600;font-size:30px;line-height:1.45;color:var(--gold);text-shadow:0 2px 8px rgba(0,0,0,.4)}
+  .intro small{display:block;font-family:'Cinzel',serif;font-size:14px;letter-spacing:.38em;color:#FFE9A8;margin-top:-4px;opacity:.9}
+  .name{max-width:640px;padding:6px 30px 10px 22px;border-left:6px solid var(--gold);
+    background:linear-gradient(90deg,rgba(255,215,0,.25),rgba(255,215,0,0));
+    font-weight:800;font-size:60px;line-height:1.45;color:var(--cream);
+    text-shadow:0 3px 12px rgba(0,0,0,.5),0 0 26px rgba(255,215,0,.35)}
+  .badge-wrap{filter:drop-shadow(0 8px 14px rgba(0,0,0,.45)) drop-shadow(0 0 18px rgba(255,215,0,.35))}
+  .badge{position:relative;overflow:hidden;display:inline-flex;align-items:center;height:86px;padding:0 70px;
+    font-family:'Poppins',sans-serif;font-weight:800;font-size:52px;letter-spacing:.02em;color:#5a0000;white-space:pre;
+    background:linear-gradient(180deg,#FFEA70 0%,#FFD700 48%,#DFA600 100%);
+    clip-path:polygon(0 0,100% 0,calc(100% - 26px) 50%,100% 100%,0 100%,26px 50%)}
+  .badge::after{content:'';position:absolute;top:0;bottom:0;left:0;width:90px;transform:translateX(-160px) skewX(-20deg);
+    background:linear-gradient(100deg,transparent,rgba(255,255,255,.8),transparent)}
+  .purpose{display:inline-flex;align-items:center;gap:12px;padding:9px 30px;border-radius:999px;
+    border:2px solid var(--gold);background:rgba(255,248,231,.13);
+    font-weight:600;font-size:28px;line-height:1.5;color:var(--cream);box-shadow:0 0 16px rgba(255,215,0,.25)}
+  .purpose i{width:11px;height:11px;background:var(--gold);transform:rotate(45deg);flex:none;box-shadow:0 0 8px var(--gold)}
+  .blessing{max-width:640px;padding-top:12px;position:relative;font-weight:400;font-size:23px;line-height:1.65;color:#FFE9A8;
+    text-shadow:0 2px 6px rgba(0,0,0,.4)}
+  .blessing::before{content:'';position:absolute;top:0;left:0;width:140px;height:2px;
+    background:linear-gradient(90deg,var(--gold),rgba(255,215,0,0))}
+
+  /* ---------- KEYFRAMES ---------- */
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  @keyframes frameIn{from{opacity:0;transform:scale(1.025)}to{opacity:1;transform:scale(1)}}
+  @keyframes headIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+  @keyframes photoIn{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
+  @keyframes shimmer{from{transform:translateX(-130%)}to{transform:translateX(130%)}}
+  @keyframes slideIn{from{opacity:0;transform:translateX(70px)}to{opacity:1;transform:translateX(0)}}
+  @keyframes riseIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes pop{0%{opacity:0;transform:scale(.55)}60%{opacity:1;transform:scale(1.09)}100%{opacity:1;transform:scale(1)}}
+  @keyframes shine{from{transform:translateX(-160px) skewX(-20deg)}to{transform:translateX(620px) skewX(-20deg)}}
+  @keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
+  @keyframes glow{0%,100%{opacity:.55}50%{opacity:1}}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes rise{0%{transform:translate(0,0);opacity:0}10%{opacity:.9}85%{opacity:.6}100%{transform:translate(34px,-780px);opacity:0}}
+  @keyframes bob{from{transform:translateY(0)}to{transform:translateY(-7px)}}
+
+  /* ---------- TIMELINE (starts when body gets .go) ---------- */
+  /* 0.0 - 1.2s */
+  .go .bg{animation:fadeIn 1.2s ease-out both}
+  .go .mandala{animation:spin 160s linear infinite}
+  .go .p{animation:rise var(--d) linear var(--dl) infinite}
+  .go .frame{animation:frameIn 1.2s ease-out both}
+  .go .header{animation:headIn 1s var(--ease) .2s both}
+  /* 1.2 - 2.5s */
+  .go .photo-wrap{animation:photoIn 1.3s var(--ease) 1.2s both,breathe 2.5s ease-in-out 5.5s}
+  .go .photo-wrap::before{animation:glow 2.5s ease-in-out 5.5s}
+  .go .photo-inner::after{animation:shimmer 1.2s ease-in-out 1.7s both}
+  .go .lotus-wrap{animation:riseIn .8s ease-out 1.9s both,bob 2.6s ease-in-out 2.7s infinite alternate}
+  /* 2.2 - 3.5s */
+  .go .intro{animation:riseIn .9s ease-out 2.2s both}
+  .go .name{animation:slideIn 1.1s var(--ease) 2.4s both}
+  /* 3.2 - 4.5s */
+  .go .badge-wrap{animation:pop 1.3s cubic-bezier(.3,1.3,.5,1) 3.2s both,breathe 2.5s ease-in-out 5.5s}
+  .go .badge::after{animation:shine 1.1s ease-in-out 3.9s both,shine 1.1s ease-in-out 6.3s}
+  /* 4.2 - 5.5s */
+  .go .purpose{animation:riseIn 1s ease-out 4.2s both}
+  .go .blessing{animation:riseIn 1s ease-out 4.5s both}
+  /* 5.5 - 8.0s: ambient breathing / shimmer hold (no reset, no cut) */
+</style>
+</head>
+<body>
+<!-- shared SVG defs -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFF3A6"/><stop offset=".5" stop-color="#FFD700"/><stop offset="1" stop-color="#B8860B"/>
+    </linearGradient>
+    <symbol id="corner" viewBox="0 0 100 100">
+      <path d="M6 96V32Q6 6 32 6H96" fill="none" stroke="url(#gold)" stroke-width="3"/>
+      <path d="M18 96V40Q18 18 40 18H96" fill="none" stroke="url(#gold)" stroke-width="1.5"/>
+      <path d="M44 30Q54 18 66 28Q56 30 54 40" fill="none" stroke="url(#gold)" stroke-width="1.6"/>
+      <path d="M30 44Q18 54 28 66Q30 56 40 54" fill="none" stroke="url(#gold)" stroke-width="1.6"/>
+      <circle cx="32" cy="32" r="11" fill="url(#gold)"/>
+      <circle cx="32" cy="32" r="6.5" fill="#800000"/>
+      <circle cx="32" cy="32" r="2.8" fill="#FFD700"/>
+      <g fill="url(#gold)">
+        <path d="M80 6l6 6-6 6-6-6z"/><path d="M6 80l6 6-6 6-6-6z"/>
+        <circle cx="62" cy="12" r="2.6"/><circle cx="12" cy="62" r="2.6"/>
+      </g>
+    </symbol>
+    <ellipse id="pa" cy="-70" rx="10" ry="24"/>
+    <ellipse id="pb" cy="-47" rx="6" ry="15"/>
+  </defs>
+</svg>
+
+<div id="stage">
+
+  <!-- Background: gradient, mandala, particles -->
+  <div class="bg a">
+    <svg class="mandala" viewBox="-100 -100 200 200" fill="none" stroke="#FFD700" stroke-width=".7">
+      <circle r="97"/><circle r="92" stroke-dasharray="1 3"/><circle r="84"/><circle r="58"/><circle r="36"/><circle r="14"/>
+      <g>
+        <use href="#pa"/><use href="#pa" transform="rotate(30)"/><use href="#pa" transform="rotate(60)"/><use href="#pa" transform="rotate(90)"/>
+        <use href="#pa" transform="rotate(120)"/><use href="#pa" transform="rotate(150)"/><use href="#pa" transform="rotate(180)"/><use href="#pa" transform="rotate(210)"/>
+        <use href="#pa" transform="rotate(240)"/><use href="#pa" transform="rotate(270)"/><use href="#pa" transform="rotate(300)"/><use href="#pa" transform="rotate(330)"/>
+      </g>
+      <g>
+        <use href="#pb" transform="rotate(15)"/><use href="#pb" transform="rotate(45)"/><use href="#pb" transform="rotate(75)"/><use href="#pb" transform="rotate(105)"/>
+        <use href="#pb" transform="rotate(135)"/><use href="#pb" transform="rotate(165)"/><use href="#pb" transform="rotate(195)"/><use href="#pb" transform="rotate(225)"/>
+        <use href="#pb" transform="rotate(255)"/><use href="#pb" transform="rotate(285)"/><use href="#pb" transform="rotate(315)"/><use href="#pb" transform="rotate(345)"/>
+      </g>
+    </svg>
+    <span class="p" style="--x:6%;--s:7px;--d:9s;--dl:-1s"></span>
+    <span class="p" style="--x:14%;--s:11px;--d:12s;--dl:-6s"></span>
+    <span class="p" style="--x:22%;--s:6px;--d:8s;--dl:-3s"></span>
+    <span class="p" style="--x:31%;--s:9px;--d:11s;--dl:-9s"></span>
+    <span class="p" style="--x:39%;--s:5px;--d:7.5s;--dl:-2s"></span>
+    <span class="p" style="--x:47%;--s:10px;--d:13s;--dl:-7s"></span>
+    <span class="p" style="--x:54%;--s:6px;--d:9.5s;--dl:-4s"></span>
+    <span class="p" style="--x:61%;--s:12px;--d:12.5s;--dl:-10s"></span>
+    <span class="p" style="--x:68%;--s:7px;--d:8.5s;--dl:-5s"></span>
+    <span class="p" style="--x:75%;--s:9px;--d:10.5s;--dl:-8s"></span>
+    <span class="p" style="--x:82%;--s:5px;--d:7s;--dl:-1.5s"></span>
+    <span class="p" style="--x:89%;--s:10px;--d:11.5s;--dl:-6.5s"></span>
+    <span class="p" style="--x:94%;--s:6px;--d:9s;--dl:-3.5s"></span>
+    <span class="p" style="--x:50%;--s:8px;--d:14s;--dl:-11s"></span>
+  </div>
+
+  <!-- Ornate double border + corner motifs -->
+  <div class="frame a">
+    <div class="f1"></div><div class="f2"></div>
+    <svg class="corner tl" viewBox="0 0 100 100"><use href="#corner"/></svg>
+    <svg class="corner tr" viewBox="0 0 100 100"><use href="#corner"/></svg>
+    <svg class="corner bl" viewBox="0 0 100 100"><use href="#corner"/></svg>
+    <svg class="corner br" viewBox="0 0 100 100"><use href="#corner"/></svg>
+  </div>
+
+  <!-- Header -->
+  <div class="header a">
+    <div class="title">|| જય સ્વામિનારાયણ ||</div>
+    <div class="subtitle">JAY SWAMINARAYAN</div>
+  </div>
+
+  <!-- 2-column content -->
+  <div class="content">
+
+    <!-- LEFT 40% : donor photo -->
+    <div class="left">
+      <div class="photo-wrap a">
+        <div class="photo-ring">
+          <div class="photo-inner">
+            <img id="donorPhoto" src="{{donor_photo}}" alt="Donor">
+          </div>
+        </div>
+      </div>
+      <div class="lotus-wrap a">
+        <svg class="lotus" viewBox="0 0 130 68">
+          <g transform="translate(65 62)" fill="url(#gold)" stroke="#8a5a00" stroke-width="1">
+            <path d="M0 0Q-34 -14 -58 -2Q-34 6 0 0Z" opacity=".85"/>
+            <path d="M0 0Q34 -14 58 -2Q34 6 0 0Z" opacity=".85"/>
+            <path d="M0 0Q-30 -30 -46 -26Q-34 -6 0 0Z"/>
+            <path d="M0 0Q30 -30 46 -26Q34 -6 0 0Z"/>
+            <path d="M0 0Q-18 -34 -20 -54Q4 -34 0 0Z"/>
+            <path d="M0 0Q18 -34 20 -54Q-4 -34 0 0Z"/>
+            <path d="M0 0Q-14 -30 0 -58Q14 -30 0 0Z"/>
+          </g>
+          <ellipse cx="65" cy="63" rx="48" ry="4" fill="#B8860B" opacity=".6"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- RIGHT 60% : donation details -->
+    <div class="right">
+      <div class="intro a">હાર્દિક આભાર તથા શુભેચ્છાઓ<small>HEARTFELT GRATITUDE</small></div>
+      <div class="name a" id="donorName">શ્રી રાજેશભાઈ પટેલ</div>
+      <div class="badge-wrap a"><div class="badge">₹ <span id="amount">11,000</span></div></div>
+      <div class="purpose a"><i></i><span id="purpose">અન્નક્ષેત્ર સેવા / Mandir Seva</span></div>
+      <div class="blessing a">ભગવાન સ્વામિનારાયણ આપના પરિવાર પર સદા કૃપા વરસાવતા રહે.</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const q=new URLSearchParams(location.search),$=id=>document.getElementById(id),img=$('donorPhoto'),s=img.getAttribute('src');
+const FB="data:image/svg+xml,"+encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 240'><rect width='200' height='240' fill='#FFF8E7'/><circle cx='100' cy='92' r='42' fill='#C8742A'/><path d='M24 240Q24 154 100 154Q176 154 176 240Z' fill='#C8742A'/></svg>");
+[['donorName','name'],['amount','amount'],['purpose','purpose']].forEach(([id,k])=>{if(q.get(k))$(id).textContent=q.get(k)});
+if($('donorName').textContent.length>16)$('donorName').style.fontSize='46px';
+img.onerror=()=>{img.onerror=null;img.src=FB};img.src=q.get('photo')||(s&&!s.includes('{{')?s:FB);
+Promise.all(['800 40px "Noto Serif Gujarati"','600 40px Cinzel','800 40px Poppins'].map(f=>document.fonts.load(f,'જય A1₹'))).catch(()=>0)
+  .then(()=>{document.body.classList.add('go');window.__videoReady=true;window.__durationMs=8000});
+</script>
+</body>
+</html>

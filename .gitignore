@@ -1,0 +1,43 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Next.js
+.next/
+out/
+build/
+dist/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv/
+
+# Secrets & Local Config (Templates provided in .env.example)
+backend/.env
+frontend/.env.local
+*.env.local
+
+# Temporary Video & Audio files
+backend/temp/
+backend/storage/videos/*.mp4
+backend/storage/audio/*.mp3
+backend/storage/photos/*.jpg
+!backend/storage/placeholder.jpg
+
+# OS & Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
